@@ -2,8 +2,7 @@
 
 ## Loom Video Walkthrough
 
-> **[Add your Loom link here]**
-> To record: go to [loom.com](https://loom.com), create a free account, click "New Recording," and record your screen with 2–3 example game runs showing the AI Coach panel, glitch detection, and confidence scores. Paste the share link above.
+> **[Watch the walkthrough](https://www.loom.com/share/00705d61b1e148abab5f9619da07e13c)**
 
 ---
 
@@ -51,15 +50,13 @@ pip install -r requirements.txt
 
 ### 3. Set your Gemini API key
 
-```bash
-# Windows
-set GEMINI_API_KEY=your_key_here
+Open the `.env` file in the project root and replace the placeholder with your actual key:
 
-# macOS/Linux
-export GEMINI_API_KEY=your_key_here
+```
+GEMINI_API_KEY=your_key_here
 ```
 
-Get a key at [aistudio.google.com](https://aistudio.google.com).
+Get a free key at [aistudio.google.com](https://aistudio.google.com) → click **Get API key**. The `.env` file is already listed in `.gitignore` so it will never be committed.
 
 ### 4. Run the app
 
@@ -119,7 +116,7 @@ Self-critique: Only 1/7 chance of winning — should have used binary search ear
 |---|---|---|
 | Local TXT knowledge base (not vector DB) | No extra dependencies, deterministic retrieval, reproducible | Less semantic matching than embeddings |
 | Gemini automatic function calling for RAG | Agentic — model decides what to retrieve; cleaner than manual tool loops | One extra round-trip latency |
-| `gemini-2.0-flash` for coach | Fast, cheap, supports function calling natively | Requires GEMINI_API_KEY |
+| `gemini-2.0-flash-lite` for coach | Lightest available model, lowest quota usage, supports function calling | Requires GEMINI_API_KEY |
 | Deterministic glitch detection (Python, not LLM) | Mathematically certain; no hallucination risk | Only catches logical contradictions, not all bug types |
 | Graceful fallback to binary search | App stays usable without API key | Fallback confidence capped at 0.3 |
 

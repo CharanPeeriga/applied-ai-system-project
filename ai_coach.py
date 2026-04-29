@@ -179,7 +179,7 @@ def coach_agent(game_state: dict) -> dict:
         genai.configure(api_key=api_key)
 
         model = genai.GenerativeModel(
-            model_name="gemini-2.0-flash",
+            model_name="gemini-2.0-flash-lite",
             system_instruction=system_prompt,
             tools=[_retrieve_strategy_for_model],
         )
@@ -200,6 +200,10 @@ def coach_agent(game_state: dict) -> dict:
         return result
 
     except Exception as exc:  # noqa: BLE001
+        msg = str(exc)
+        if "429" in msg or "quota" in msg.lower():
+            logger.warning("Quota exceeded: %s", msg)
+            return _fallback_result(low, high, glitch_warning, "Quota exceeded — using binary search fallback.")
         logger.error("Coach agent error: %s", exc)
         return _fallback_result(low, high, glitch_warning, str(exc))
 

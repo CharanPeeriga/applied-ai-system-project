@@ -1,5 +1,7 @@
 import os
 import random
+from dotenv import load_dotenv
+load_dotenv()
 import streamlit as st
 from logic_utils import get_range_for_difficulty, parse_guess, check_guess, update_score
 from ai_coach import coach_agent
@@ -75,6 +77,8 @@ if "current_high" not in st.session_state:
     st.session_state.current_high = high
 if "coach_result" not in st.session_state:
     st.session_state.coach_result = None
+if "last_hint" not in st.session_state:
+    st.session_state.last_hint = None
 
 st.subheader("Make a guess")
 
@@ -89,6 +93,9 @@ with st.expander("Developer Debug Info"):
     st.write("Score:", st.session_state.score)
     st.write("Difficulty:", difficulty)
     st.write("History:", st.session_state.history)
+
+if st.session_state.last_hint:
+    st.warning(st.session_state.last_hint)
 
 raw_guess = st.text_input(
     "Enter your guess:",
@@ -114,6 +121,7 @@ if new_game:
     st.session_state.current_low = low
     st.session_state.current_high = high
     st.session_state.coach_result = None
+    st.session_state.last_hint = None
     st.success("New game started.")
     st.rerun()
 
@@ -145,7 +153,7 @@ if submit:
         outcome, message = check_guess(guess_int, secret)
 
         if show_hint:
-            st.warning(message)
+            st.session_state.last_hint = message
 
         # Track outcome for coach's range narrowing and glitch detection
         if outcome == "Too High":

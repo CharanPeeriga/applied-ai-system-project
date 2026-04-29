@@ -2,7 +2,7 @@
 
 ## Model Details
 
-- **Model used:** gemini-2.0-flash (Google)
+- **Model used:** gemini-2.0-flash-lite (Google)
 - **Role:** Strategic game coach using RAG and agentic tool use
 - **Input:** Structured game state (range, attempt count, guess/hint history)
 - **Output:** JSON with plan, recommendation, confidence score, self-critique, and optional glitch alert
