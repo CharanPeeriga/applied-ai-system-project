@@ -1,0 +1,41 @@
+# Number Guessing Game Strategy Guide
+
+## Opening Strategy
+When you start a new game, the optimal first guess is always the midpoint of the full range.
+For a range of 1 to 100, guess 50. This eliminates half of all possibilities immediately.
+Binary search is the mathematically optimal approach for number guessing games.
+Opening moves that avoid the midpoint are statistically suboptimal.
+
+## Narrowing the Range
+After each hint, update your working range precisely:
+- "Too High" means the secret is LESS than your guess: new upper bound = guess - 1
+- "Too Low" means the secret is MORE than your guess: new lower bound = guess + 1
+Always guess the midpoint of your updated range to maximize information gain per attempt.
+Formula: next_guess = (current_low + current_high) // 2
+This strategy guarantees finding any number in 1-100 within 7 guesses.
+
+## Endgame Precision
+When fewer than 5 numbers remain in your range, switch to focused enumeration.
+If range size equals remaining attempts, you can always win.
+If range size is smaller than remaining attempts, victory is guaranteed.
+In endgame, the midpoint still minimizes worst-case scenarios.
+
+## Pattern Recognition and Anomaly Detection
+Watch for inconsistent hints across your guess history.
+If hint says "Too High" for guess G1, then secret must be less than G1.
+If hint says "Too Low" for guess G2, then secret must be greater than G2.
+A contradiction occurs if any two hints imply impossible conditions (e.g., secret > 60 AND secret < 40).
+Contradictory hints indicate a game bug or glitch.
+String vs integer comparison bugs can cause lexicographic ordering errors.
+For example: comparing strings might say 6 > 50 because "6" > "5" lexicographically.
+
+## Risk Management Under Pressure
+When few attempts remain, prioritize high-information guesses over lucky guesses.
+The midpoint of your range gives the best probability of winning in limited attempts.
+Avoid guessing at the extremes of your range unless you have confirmed bounds.
+If you suspect a glitch, the midpoint remains the safest choice.
+
+## Difficulty-Specific Strategy
+Easy (1-20, 6 attempts): Extra buffer. Midpoint strategy wins in 4 moves maximum.
+Normal (1-100, 8 attempts): Standard binary search wins in 7 moves worst-case.
+Hard (1-50, 5 attempts): Tight constraints. Binary search is essential. No room for random guesses.
