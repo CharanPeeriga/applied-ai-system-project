@@ -28,35 +28,9 @@ This extension adds an **AI Coach** powered by Retrieval-Augmented Generation (R
 
 ## Architecture Overview
 
-```
-User Input
-    │
-    ▼
-[app.py — Streamlit Game Engine]
-    │  guess processing (logic_utils.py)
-    │  session state (history, hints, narrowed range)
-    ▼
-[ai_coach.py — RAG + Agent]
-    ├─ detect_glitch()          ← deterministic contradiction check
-    ├─ retrieve_strategy_tool() ← keyword-scored KB retrieval
-    │       ▲
-    │       └── knowledge_base.txt
-    └─ coach_agent()            ← Gemini automatic function calling loop
-            Step 1: model calls retrieve_strategy tool
-            Step 2: tool runs Python retrieval, returns chunks
-            Step 3: model synthesizes plan + recommendation
-            Step 4: model self-critiques + assigns confidence
-    │
-    ▼
-[Streamlit UI — AI Coach Panel]
-    Displays: plan, recommendation, confidence bar,
-              self-critique, glitch alert
-    │
-    ▼
-[coach.log — Logging + Audit Trail]
-```
+![System Architecture Diagram](assets/mermaid-diagram-2026-04-29-003639.png)
 
-See `assets\mermaid-diagram-2026-04-29-003639.png` for the visual diagram.
+The diagram shows data flowing from user input → Streamlit game engine → AI Coach (RAG retrieval from `knowledge_base.txt` + Gemini agentic loop) → coach panel UI, with all steps logged to `coach.log`.
 
 ---
 
